@@ -108,7 +108,9 @@ public class Main {
                     String nodeStart=sc.next();
                     System.out.println("Node 2:");
                     String nodeEnd=sc.next();
-                    System.out.println(graph.getConexionPath(nodeStart,nodeEnd));
+                    System.out.println("Cuantas comprobaciones le permites al programa?");
+                    int checks=sc.nextInt();
+                    System.out.println(graph.getConexionPath(nodeStart,nodeEnd,checks));
                     System.out.println("-----------------------------------------");
                     break;
                 case 2:

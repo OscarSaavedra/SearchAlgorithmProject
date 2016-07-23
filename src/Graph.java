@@ -18,7 +18,7 @@ public class Graph {
         return (multimapNodeConnection.get(node));
     }
 
-    public List<Node> getConexionPath(String nodeStart, String nodeEnd) {
+    public List<Node> getConexionPath(String nodeStart, String nodeEnd,Integer numberOfChecksAllowed) {
         Node primeroLista= nodesByName.get(nodeStart);
         Node nodeDestino = nodesByName.get(nodeEnd);
 
@@ -30,33 +30,47 @@ public class Graph {
 
         cola.add(primeroLista);
         visitado.add(primeroLista);
+        
+        int numberOfChecks=1;
 
         boolean encontrado=false;
             while(!cola.isEmpty()){
                 primeroLista = cola.poll();
-                System.out.println("Visitando el nodo: ");
+                System.out.print("Visitando el nodo:");
                 System.out.println(primeroLista);
+                System.out.print("El objetivo es:");
+                System.out.println(nodeDestino);
+                System.out.println("Comprobación número: ["+(numberOfChecks+"]"));
+                System.out.println("-------------------------------------");
+                if (numberOfChecks>numberOfChecksAllowed){
+                    break;
+                }
+                numberOfChecks++;
                 if (primeroLista.equals(nodeDestino)){
                     encontrado=true;
                     break;
                 }else{
-                    for(Node adjacent : getAdjacents(primeroLista)){
-                        if(!visitado.contains(adjacent)){
-                            cola.add(adjacent);
-                            visitado.add(adjacent);
-                            predecesor.put(adjacent, primeroLista);
+                        for (Node adjacent:getAdjacents(primeroLista)) {
+                            if(!visitado.contains(adjacent)){
+                                cola.add(adjacent);
+                                visitado.add(adjacent);
+                                predecesor.put(adjacent, primeroLista);
+                            }
                         }
                     }
                 }
-            }
-
             if (encontrado){
                 for(Node node = nodeDestino; node != null; node = predecesor.get(node)) {
                     camino.add(node);
                 }
                 Collections.reverse(camino);
+                System.out.println("Se encuentran a una distancia de "+(camino.size()-1));
                 }else{
-                System.out.println("No hay conexión posible o uno de los nodos no existe");
+                    if(numberOfChecks>numberOfChecksAllowed){
+                        System.out.println("La busqueda necesita mas comprobaciones");
+                    }else {
+                        System.out.println("No hay conexión posible o uno de los nodos no existe");
+                    }
             }
             return camino;
         }
