@@ -74,10 +74,13 @@ public class Graph {
             }
             return camino;
         }
-    public String getNodeAdjacentQuantity(String node){
+    public void getNodeAdjacentQuantity(String node){
         Node n=getNode(node);
-        List<Node>adjacentNodes= getAdjacents(n);
-        return adjacentNodes.size()+" los cuales son "+adjacentNodes;
+        if (n!=null){
+            List<Node>adjacentNodes= getAdjacents(n);
+            System.out.println(adjacentNodes.size()+", los cuales son "+adjacentNodes);
+        }else
+            System.out.println("El nodo no existe");
     }
 
     public List <Node> getNodeCR(){
@@ -89,7 +92,7 @@ public class Graph {
                 int num2=getAdjacents(o2).size();
                 if (num1<num2){
                     return -1;
-                }else if (num2<num1){
+                }else if (num1>num2){
                     return 1;
                 }else{
                     return 0;

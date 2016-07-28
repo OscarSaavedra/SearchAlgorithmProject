@@ -1,5 +1,5 @@
 import java.util.*;
-public class Main {
+public class Main{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         //---------CREACIÓN GRAFO----------------//
@@ -100,32 +100,42 @@ public class Main {
             System.out.println("1.Mostrar camino corto entre dos nodos");
             System.out.println("2.Mostrar la cantidad de conexiones de un nodo");
             System.out.println("3.Mostrar de menor a mayor, cantidad de conexiones");
-            int eleccion=sc.nextInt();
-            switch (eleccion){
-                case 1:
-                    System.out.println("Camino entre dos personas");
-                    System.out.println("Node 1:");
-                    String nodeStart=sc.next();
-                    System.out.println("Node 2:");
-                    String nodeEnd=sc.next();
-                    System.out.println("Cuantas comprobaciones le permites al programa?");
-                    int checks=sc.nextInt();
-                    System.out.println(graph.getConexionPath(nodeStart,nodeEnd,checks));
-                    System.out.println("-----------------------------------------");
-                    break;
-                case 2:
-                    System.out.println("Introduce el nodo:");
-                    String node=sc.next();
-                    System.out.println(graph.getNodeAdjacentQuantity(node));
-                    System.out.println("-------------------");
-                    break;
-                case 3:
-                    System.out.println("De menor a mayor, cantidades de conexiones");
-                    System.out.println(graph.getNodeCR());
-                    System.out.println("------------------------------------------");
+            try{
+                int eleccion=sc.nextInt();
+                switch (eleccion){
+                    case 1:
+                        System.out.println("Camino entre dos personas");
+                        System.out.println("Node 1:");
+                        String nodeStart = sc.next();
+                        System.out.println("Node 2:");
+                        String nodeEnd = sc.next();
+                        System.out.println("Cuantas comprobaciones le permites al programa?");
+                        int checks = sc.nextInt();
+                        try{
+                            System.out.println(graph.getConexionPath(nodeStart, nodeEnd, checks));
+                        }catch(NullPointerException npe) {
+                            System.out.println("Nombre invalido, recuerda que debes introducir una letra");
+                        }
+                        System.out.println("-----------------------------------------");
+                        break;
+                    case 2:
+                        System.out.println("Introduce el nodo:");
+                        String node=sc.next();
+                        graph.getNodeAdjacentQuantity(node);
+                        System.out.println("-------------------");
+                        break;
+                    case 3:
+                        System.out.println("De menor a mayor, cantidades de conexiones");
+                        System.out.println(graph.getNodeCR());
+                        System.out.println("------------------------------------------");
+                        break;
                 }
+            }catch (InputMismatchException ime){
+                System.out.println("Introduce una opción válida");
+                break;
             }
         }
     }
+}
 
 
