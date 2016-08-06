@@ -2,8 +2,10 @@ import com.google.common.collect.*;
 import java.util.*;
 
 public class Graph {
+
     private Map<String , Node> nodesByName =new HashMap<>();
     private ListMultimap<Node, Node> multimapNodeConnection = ArrayListMultimap.create();
+    private ListMultimap<String, List<Node>>savedSearch=ArrayListMultimap.create();
 
     public void addNode(Node node){
         nodesByName.put(node.getName(), node);
@@ -22,16 +24,18 @@ public class Graph {
         Node primeroLista= nodesByName.get(nodeStart);
         Node nodeDestino = nodesByName.get(nodeEnd);
 
-        Set<Node> visitado = new HashSet<>();
+        Set<Node> visited = new HashSet<>();
         Map<Node, Node> predecesor = new HashMap<>();
 
-        List camino = new LinkedList();
+        List path = new LinkedList();
         Queue<Node> cola = new LinkedList<>();
 
         cola.add(primeroLista);
-        visitado.add(primeroLista);
+        visited.add(primeroLista);
         
         int numberOfChecks=1;
+
+        List<Node>finalAddedNodes=new ArrayList<>();
 
         boolean encontrado=false;
             while(!cola.isEmpty()){
@@ -48,23 +52,36 @@ public class Graph {
                 numberOfChecks++;
                 if (primeroLista.equals(nodeDestino)){
                     encontrado=true;
+                    System.out.println("Se han añadido "+finalAddedNodes.size()+" " +
+                            "nodos en total para conseguir realizar la búsqueda: "+finalAddedNodes);
+                    System.out.println("///////////////////////////////////////////////");
                     break;
                 }else{
                         for (Node adjacent:getAdjacents(primeroLista)) {
-                            if(!visitado.contains(adjacent)){
-                                cola.add(adjacent);
-                                visitado.add(adjacent);
+                            //bloque1:saber si un nodo solo tiene una conexion y no es el destino
+                            boolean cond1=getAdjacents(adjacent).size()==1;
+                            boolean cond2=getAdjacents(adjacent).contains(primeroLista);
+                            boolean cond3=adjacent!=nodeDestino;
+                            //fin bloque1
+
+                            //bloque2:
+                            //fin bloque2
+
+                            if((!visited.contains(adjacent))&&(!((cond1)&&(cond2)&&(cond3)))){
+                                visited.add(adjacent);
                                 predecesor.put(adjacent, primeroLista);
+                                cola.add(adjacent);
+                                finalAddedNodes.add(adjacent);
                             }
                         }
                     }
                 }
             if (encontrado){
                 for(Node node = nodeDestino; node != null; node = predecesor.get(node)) {
-                    camino.add(node);
+                    path.add(node);
                 }
-                Collections.reverse(camino);
-                System.out.println("Se encuentran a una distancia de "+(camino.size()-1));
+                Collections.reverse(path);
+                System.out.println("Se encuentran a una distancia de "+(path.size()-1));
                 }else{
                     if(numberOfChecks>numberOfChecksAllowed){
                         System.out.println("La busqueda necesita mas comprobaciones");
@@ -72,8 +89,16 @@ public class Graph {
                         System.out.println("No hay conexión posible o uno de los nodos no existe");
                     }
             }
-            return camino;
+            return path;
         }
+
+    public void setSavedSearch(String name, List<Node> searchlist){
+        savedSearch.put(name,searchlist);
+    }
+    public List<List<Node>>getSavedSearch (String name){
+        return savedSearch.get(name);
+    }
+
     public void getNodeAdjacentQuantity(String node){
         Node n=getNode(node);
         if (n!=null){
@@ -101,9 +126,25 @@ public class Graph {
         });
         return nodeList;
     }
+    public int getNodeQuantity(){
+        return nodesByName.size();
+    }
+
+    @Override
+    public String toString() {
+        return "Graph{" +
+                "nodesByName=" + nodesByName +
+                ", connections=" + multimapNodeConnection +
+                ", savedSearch=" + savedSearch +
+                '}';
+    }
 
 
+    //----------------------------------------------------///////////
+    //----------------------------------------------------///////////
+    //----------------------------------------------------///////////
     //Experimental methods (not working yet)
+
     /*public Integer experimental(String n1,String n2) {
         Node primeroLista= nodesByName.get(n1);
         Node nodeDestino = nodesByName.get(n2);
@@ -133,5 +174,22 @@ public class Graph {
             primeroLista = cola.poll();
         }
         return distanciaDeInicio.inverse().get(nodeDestino);
+    }*/
+
+
+    /*public int  getEdgeQuantity(){
+        int contador=0;
+        Set<Node> visited = new HashSet<>();
+        String table[]={"A","B","C","D","E",
+                "F","G","H","I","J",
+                "K","L","M","N","O","P"};
+        for (String lista:table) {
+            if (!getAdjacents((getNode(lista))).contains(visited)){
+                contador=contador+(getAdjacents(getNode(lista)).size());
+                Node actualVisited=getNode(lista);
+                visited.add(actualVisited);
+            }
+        }
+        return contador;
     }*/
 }

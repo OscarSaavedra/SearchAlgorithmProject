@@ -7,6 +7,6 @@ Generalization of the SocialNetwork connections algorithm, now this is going to 
   - [ ] Generate random connections by console with a determined quantity of nodes.
   - [ ] Visual representation.
 
-## SearchAlgorithmProject
-Maths, Graph Theory, Algorithm
+####SearchAlgorithmProject
+_Maths, Graph Theory, Algorithm_
 

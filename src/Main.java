@@ -2,104 +2,26 @@ import java.util.*;
 public class Main{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        //---------CREACIÓN GRAFO----------------//
-        Node a = new Node("A");
-        Node b = new Node("B");
-        Node c = new Node("C");
-        Node d = new Node("D");
-        Node e = new Node("E");
-        Node f = new Node("F");
-        Node g = new Node("G");
-        Node h = new Node("H");
-        Node i = new Node("I");
-        Node j = new Node("J");
-        Node k = new Node("K");
-        Node l = new Node("L");
-        Node m = new Node("M");
-        Node n = new Node("N");
-        Node o = new Node("O");
-        Node p = new Node("P");
 
-        Graph graph = new Graph();
-        graph.addNode(a);
-        graph.addNode(b);
-        graph.addNode(c);
-        graph.addNode(d);
-        graph.addNode(e);
-        graph.addNode(f);
-        graph.addNode(g);
-        graph.addNode(h);
-        graph.addNode(i);
-        graph.addNode(j);
-        graph.addNode(k);
-        graph.addNode(l);
-        graph.addNode(m);
-        graph.addNode(n);
-        graph.addNode(o);
-        graph.addNode(p);
+        Graph graph = GraphCreation.createGraph1();
 
-        graph.connect(a,b);
-        graph.connect(a,c);
-
-        graph.connect(b,a);
-        graph.connect(b,h);
-        graph.connect(b,g);
-        graph.connect(b,p);
-
-        graph.connect(c,a);
-        graph.connect(c,d);
-        graph.connect(c,g);
-
-        graph.connect(d,e);
-        graph.connect(d,c);
-        graph.connect(d,f);
-
-        graph.connect(e,d);
-
-        graph.connect(f,d);
-        graph.connect(f,h);
-        graph.connect(f,g);
-
-        graph.connect(g,f);
-        graph.connect(g,c);
-        graph.connect(g,h);
-
-        graph.connect(h,f);
-        graph.connect(h,g);
-        graph.connect(h,b);
-
-        graph.connect(i,l);
-        graph.connect(i,m);
-        graph.connect(i,j);
-
-        graph.connect(j,i);
-        graph.connect(j,k);
-
-        graph.connect(k,j);
-        graph.connect(k,m);
-        graph.connect(k,n);
-
-        graph.connect(l,i);
-        graph.connect(l,m);
-
-        graph.connect(m,i);
-        graph.connect(m,l);
-        graph.connect(m,k);
-
-        graph.connect(n,k);
-        graph.connect(n,o);
-
-        graph.connect(o,p);
-        graph.connect(o,n);
-
-        graph.connect(p,o);
-        graph.connect(p,b);
-        //---------FINAL CREACIÓN GRAFO----------------//
-
+        Menus.getTitle();
+        int lang=sc.nextInt();
         while (true) {
-            System.out.println("1.Mostrar camino corto entre dos nodos");
-            System.out.println("2.Mostrar la cantidad de conexiones de un nodo");
-            System.out.println("3.Mostrar de menor a mayor, cantidad de conexiones");
+            switch (lang){
+                case 1:
+                    Menus.getMenuEng();
+                    break;
+                case 2:
+                    Menus.getMenuEsp();
+                    break;
+                case 3:
+                    Menus.getMenuCat();
+                    break;
+                default:
+                    Menus.getMenuEng();
+            }
+
             try{
                 int eleccion=sc.nextInt();
                 switch (eleccion){
@@ -113,6 +35,13 @@ public class Main{
                         int checks = sc.nextInt();
                         try{
                             System.out.println(graph.getConexionPath(nodeStart, nodeEnd, checks));
+                            System.out.println("Quieres guardar la búsqueda? (si) (no)");
+                            String respuesta=sc.next();
+                            if(respuesta.equals("si")){
+                                System.out.println("Introduce el nombre para guardar la búsqueda");
+                                String nombre=sc.next();
+                                graph.setSavedSearch(nombre,new ArrayList<>(graph.getConexionPath(nodeStart, nodeEnd, checks)));
+                            }
                         }catch(NullPointerException npe) {
                             System.out.println("Nombre invalido, recuerda que debes introducir una letra");
                         }
@@ -129,6 +58,27 @@ public class Main{
                         System.out.println(graph.getNodeCR());
                         System.out.println("------------------------------------------");
                         break;
+                    case 4:
+                        System.out.println("Número de nodos (vertices)");
+                        System.out.println(graph.getNodeQuantity());
+                        System.out.println("---------------");
+                        System.out.println("Número de conexiones (edges)");
+                        System.out.println("En proceso...");
+                        //System.out.println(graph.getEdgeQuantity());
+                        break;
+                    case 5:
+                        System.out.println("Introduce el nombre de la búsqueda");
+                        String nombre=sc.next();
+                        System.out.println(graph.getSavedSearch(nombre));
+                        break;
+                    case 6:
+                        System.out.println("Cuantas conexiones quieres que se realicen");
+                        int cantidad=sc.nextInt();
+                        Graph rndGraph=GraphCreation.createRandomGraph(cantidad);
+                        System.out.println(rndGraph);
+                        break;
+                    case 7:
+                        Menus.getGitHub();
                 }
             }catch (InputMismatchException ime){
                 System.out.println("Introduce una opción válida");
