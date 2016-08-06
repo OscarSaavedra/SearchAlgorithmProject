@@ -45,7 +45,7 @@ public class Main{
                         }catch(NullPointerException npe) {
                             System.out.println("Nombre invalido, recuerda que debes introducir una letra");
                         }
-                        System.out.println("-----------------------------------------");
+                        System.out.println("--------------------------------------");
                         break;
                     case 2:
                         System.out.println("Introduce el nodo:");
