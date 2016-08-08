@@ -1,5 +1,17 @@
 Generalization of the SocialNetwork connections algorithm, now this is going to be the central project.
 
+
+
+###>**_v3.5 Update (eng):_**
+  - *Added visual interface (in process)*
+  - *Console version is fully functional, so if you want to test it simply delete the first block in Main, where I create the object formulario1*
+  
+  ###>**_v3.5 Update (spa):_**
+  - *Añadida interface visual (en proceso)*
+  - *La versión por consola es completamente funcional, así que si se quiere testear solo hay que borrar el primer bloque en Main, donde creo el objeto formulario1*
+
+  ------------------------------------------------------------------------------------------------------------------------------------
+
 >**_v3. Update (eng):_**
   - *Created class for getting menus*
   - *New class for creating graphs through static methods*
