@@ -3,6 +3,11 @@ public class Main{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
+        Window formulario1=new Window();
+        formulario1.setBounds(10,10,800,425);
+        formulario1.setTitle("Graphs v3.5");
+        formulario1.setVisible(true);
+
         Graph graph = GraphCreation.createGraph1();
 
         Menus.getTitle();
@@ -26,7 +31,7 @@ public class Main{
                 int eleccion=sc.nextInt();
                 switch (eleccion){
                     case 1:
-                        System.out.println("Camino entre dos personas");
+                        System.out.println("Camino entre dos nodos");
                         System.out.println("Node 1:");
                         String nodeStart = sc.next();
                         System.out.println("Node 2:");

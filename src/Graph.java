@@ -1,7 +1,7 @@
 import com.google.common.collect.*;
 import java.util.*;
 
-public class Graph {
+public class Graph extends Window {
 
     private Map<String , Node> nodesByName =new HashMap<>();
     private ListMultimap<Node, Node> multimapNodeConnection = ArrayListMultimap.create();
@@ -89,6 +89,7 @@ public class Graph {
                         System.out.println("No hay conexión posible o uno de los nodos no existe");
                     }
             }
+            resultado.setText(path.toString());
             return path;
         }
 
