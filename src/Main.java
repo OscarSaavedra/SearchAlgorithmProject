@@ -4,9 +4,13 @@ public class Main{
         Scanner sc = new Scanner(System.in);
 
         Window formulario1=new Window();
-        formulario1.setBounds(10,10,800,425);
+        formulario1.setBounds(10,10,1280,425);
+        formulario1.setResizable(false);
         formulario1.setTitle("Graphs v3.5");
         formulario1.setVisible(true);
+
+
+
 
         Graph graph = GraphCreation.createGraph1();
 

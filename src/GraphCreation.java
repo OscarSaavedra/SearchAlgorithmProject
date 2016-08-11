@@ -156,6 +156,7 @@ public class GraphCreation {
         array.add(o);
         array.add(p);
 
+
         final int arraySize=array.size();
         Random rnd=new Random();
         Random rnd2=new Random();

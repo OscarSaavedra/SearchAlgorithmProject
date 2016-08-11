@@ -6,17 +6,18 @@ import java.awt.event.*;
 
 public class Window extends JFrame implements ActionListener,ItemListener,ChangeListener{
 
-    private JButton button1,button2;
-
+    private JButton exitButton,button2;
     private JTextField casillaNodoInic, casillaNodoDest, busquedasPermit,textField4;
 
-    protected JTextArea resultado,textArea2,textArea3;
+
+
+    protected JTextArea resultado, NodeCRtextArea,textArea3;
     private JScrollPane scrollResult;
     private JLabel label1;
 
     private JMenuBar mb;
-    private JMenu options, menuSize,menuColor;
-    private JMenuItem mi1,mi2,mi3,mi4,mi5;
+    private JMenu options, menuSize,menuColor,ayuda;
+    private JMenuItem redOpt, greenOpt, blueOpt, resOpt1, resOpt2,mi6,ayudaItem;
 
     private JRadioButton opc1,opc2,opc3;
     private ButtonGroup bg;
@@ -28,9 +29,9 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
 
 
 
+
     public Window(){
         setLayout(null);
-
 
         list=new JList(graphs);
         list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -62,40 +63,49 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         bg.add(opc3);
 
 
-
         mb=new JMenuBar();
         setJMenuBar(mb);
 
         options=new JMenu("Opciones");
         mb.add(options);
+        ayuda=new JMenu("Ayuda");
+        mb.add(ayuda);
+
 
         menuSize =new JMenu("Tamaño de la ventana");
         options.add(menuSize);
         menuColor=new JMenu("Color");
         options.add(menuColor);
 
-        mi1=new JMenuItem("Rojo");
-        mi1.addActionListener(this);
-        menuColor.add(mi1);
-        mi2=new JMenuItem("Verde");
-        mi2.addActionListener(this);
-        menuColor.add(mi2);
-        mi3=new JMenuItem("Azul");
-        mi3.addActionListener(this);
-        menuColor.add(mi3);
+        ayudaItem =new JMenuItem("Abrir ayuda");
+        ayuda.add(ayudaItem);
+        ayudaItem.addActionListener(this);
 
-        mi4=new JMenuItem("640*480");
-        mi4.addActionListener(this);
-        menuSize.add(mi4);
-        mi5=new JMenuItem("1024*768");
-        mi5.addActionListener(this);
-        menuSize.add(mi5);
+        redOpt =new JMenuItem("Rojo");
+        redOpt.addActionListener(this);
+        menuColor.add(redOpt);
+        greenOpt =new JMenuItem("Verde");
+        greenOpt.addActionListener(this);
+        menuColor.add(greenOpt);
+        blueOpt =new JMenuItem("Azul");
+        blueOpt.addActionListener(this);
+        menuColor.add(blueOpt);
+
+        resOpt1 =new JMenuItem("640*480");
+        resOpt1.addActionListener(this);
+        menuSize.add(resOpt1);
+        resOpt2 =new JMenuItem("1024*768");
+        resOpt2.addActionListener(this);
+        menuSize.add(resOpt2);
+        mi6=new JMenuItem("Permitir redimensionar");
+        mi6.addActionListener(this);
+        menuSize.add(mi6);
 
 
-        button1=new JButton("Exit");
-        button1.setBounds(250,300,100,30);
-        add(button1);
-        button1.addActionListener(this);
+        exitButton =new JButton("Exit");
+        exitButton.setBounds(250,300,100,30);
+        add(exitButton);
+        exitButton.addActionListener(this);
 
         button2=new JButton("Recorrer");
         button2.setBounds(250,50,100,30);
@@ -159,42 +169,56 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         scrollResult.setVisible(false);
         add(scrollResult);
 
-        textArea2=new JTextArea();
-        textArea2.setBounds(400,300,365,40);
-        textArea2.setVisible(false);
-        add(textArea2);
+        NodeCRtextArea =new JTextArea();
+        NodeCRtextArea.setBounds(400,300,365,40);
+        NodeCRtextArea.setVisible(false);
+        add(NodeCRtextArea);
 
         textArea3=new JTextArea();
         textArea3.setBounds(320,10,50,30);
         textArea3.setVisible(false);
-        add(busquedasPermit);
+        add(textArea3);
     }
 
     public void actionPerformed(ActionEvent ae){
 
-
         Container f=this.getContentPane();
-        if (ae.getSource()==mi1){
+        if (ae.getSource()==redOpt){
             f.setBackground(new Color(250,0,0));
         }
-        if (ae.getSource()==mi2){
+        if (ae.getSource()==greenOpt){
             f.setBackground(new Color(0,250,0));
         }
-        if (ae.getSource()==mi3){
+        if (ae.getSource()==blueOpt){
             f.setBackground(new Color(0,0,250));
         }
 
-        if (ae.getSource()==mi4){
+        if (ae.getSource()==resOpt1){
             setSize(640,480);
         }
-        if(ae.getSource()==mi5){
+        if(ae.getSource()==resOpt2){
             setSize(1024,768);
         }
 
+        if (ae.getSource()==mi6&&mi6.getText().equals("Bloquear redimensionado")){
+            setResizable(false);
+            mi6.setText("Permitir redimensionar");
+        }else{
+            if(ae.getSource()==mi6){
+                setResizable(true);
+                mi6.setText("Bloquear redimensionado");
+            }
+        }
 
-        if (ae.getSource()==button1){
+        if (ae.getSource()==ayudaItem){
+            helpWindow helpwi=new helpWindow();
+            helpwi.setVisible(true);
+        }
+
+        if (ae.getSource()==exitButton){
             System.exit(0);
         }
+
         if (ae.getSource()==button2){
             String nodeStart= casillaNodoInic.getText();
             String nodeEnd= casillaNodoDest.getText();
@@ -244,11 +268,11 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         if (opc3.isSelected()){
             if (list.isSelectedIndex(0)) {
                 Graph graph = GraphCreation.createGraph1();
-                textArea2.setVisible(true);
-                textArea2.setText(graph.getNodeCR().toString());
+                NodeCRtextArea.setVisible(true);
+                NodeCRtextArea.setText(graph.getNodeCR().toString());
             }
         }else{
-            textArea2.setVisible(false);
+            NodeCRtextArea.setVisible(false);
         }
     }
 }

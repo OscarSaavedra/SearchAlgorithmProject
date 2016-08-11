@@ -27,7 +27,7 @@ public class Graph extends Window {
         Set<Node> visited = new HashSet<>();
         Map<Node, Node> predecesor = new HashMap<>();
 
-        List path = new LinkedList();
+        List<Node> path = new LinkedList<>();
         Queue<Node> cola = new LinkedList<>();
 
         cola.add(primeroLista);
