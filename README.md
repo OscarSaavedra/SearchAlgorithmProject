@@ -1,6 +1,14 @@
 Generalization of the SocialNetwork connections algorithm, now this is going to be the central project.
 
 
+####>**_v3.5.2 Update (eng):_**
+  - *The interface shows images of the selected graph (for now only in my computer)*
+  
+####>**_v3.5.2 Update (spa):_**
+  - *La interface muestra imágenes del grafo seleccionado (por ahora solo en mi pc)*
+  
+------------------------------------------------------------------------------------------------------------------------------------
+
 ####>**_v3.5.1 Update (eng):_**
   - *Now you can save data through interface (in process)*
   
