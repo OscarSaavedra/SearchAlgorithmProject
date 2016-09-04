@@ -99,7 +99,6 @@ public class Graph extends Window {
     public List<List<Node>>getSavedSearch (String name){
         return savedSearch.get(name);
     }
-
     public void getNodeAdjacentQuantity(String node){
         Node n=getNode(node);
         if (n!=null){

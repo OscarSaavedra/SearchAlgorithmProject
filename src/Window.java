@@ -3,10 +3,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 public class Window extends JFrame implements ActionListener,ItemListener,ChangeListener{
 
-    private JButton exitButton,button2;
+    private JButton exitButton, botonRecorrer,botonGuardar;
     private JTextField casillaNodoInic, casillaNodoDest, busquedasPermit,textField4;
 
 
@@ -107,12 +108,20 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         add(exitButton);
         exitButton.addActionListener(this);
 
-        button2=new JButton("Recorrer");
-        button2.setBounds(250,50,100,30);
-        button2.setToolTipText("Se recorrerá el grafo");
-        button2.setVisible(false);
-        add(button2);
-        button2.addActionListener(this);
+        botonRecorrer =new JButton("Recorrer");
+        botonRecorrer.setBounds(250,50,100,30);
+        botonRecorrer.setToolTipText("Se recorrerá el grafo");
+        botonRecorrer.setVisible(false);
+        add(botonRecorrer);
+        botonRecorrer.addActionListener(this);
+
+        botonGuardar=new JButton("Guardar búsqueda");
+        botonGuardar.setBounds(250,100,100,30);
+        botonGuardar.setToolTipText("Se guardarán los datos de la búsqueda");
+        botonGuardar.setVisible(false);
+        botonGuardar.setEnabled(false);
+        add(botonGuardar);
+        botonGuardar.addActionListener(this);
 
 
         casillaNodoInic=new JTextField("Introduce el nodo inicio");
@@ -219,13 +228,37 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
             System.exit(0);
         }
 
-        if (ae.getSource()==button2){
+        if (ae.getSource()== botonRecorrer){
             String nodeStart= casillaNodoInic.getText();
             String nodeEnd= casillaNodoDest.getText();
             int conn=Integer.parseInt(busquedasPermit.getText());
             Graph graph = GraphCreation.createGraph1();
             resultado.setText(graph.getConexionPath(nodeStart,nodeEnd,conn).toString());
 
+        }
+
+        if (ae.getSource()==botonGuardar){
+            if (resultado.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Primero debes realizar la" +
+                        "búsqueda");
+            }else{
+                File ruta=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject");
+                if (!ruta.exists()){
+                    ruta.mkdirs();
+                }
+                File archivo=new File(ruta,"busqueda.txt");
+                try(FileWriter escritura=new FileWriter(archivo)){
+                    String sl=(String.format("%n"));
+                    escritura.write("Nodo de inicio: "+casillaNodoInic.getText());
+                    escritura.write(sl);
+                    escritura.write("Nodo destino: "+casillaNodoDest.getText());
+                    escritura.write(sl);
+                    escritura.write("Recorrido: "+resultado.getText());
+                }catch (IOException ioe){
+                    JOptionPane.showMessageDialog(null,"No se ha podido escribir" +
+                            "el archivo");
+                }
+            }
         }
     }
 
@@ -240,7 +273,17 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
                 casillaNodoInic.setVisible(true);
                 casillaNodoDest.setVisible(true);
                 busquedasPermit.setVisible(true);
-                button2.setVisible(true);
+                botonRecorrer.setVisible(true);
+                botonGuardar.setVisible(true);
+                boolean b1=casillaNodoInic.getText().equals("Introduce el nodo inicio");
+                boolean b2=casillaNodoDest.getText().equals("Introduce el nodo destino");
+                boolean b3=busquedasPermit.getText().equals("Cantidad de búsquedas permitidas");
+                boolean b11=casillaNodoInic.getText().isEmpty();
+                boolean b22=casillaNodoDest.getText().isEmpty();
+                boolean b33=busquedasPermit.getText().isEmpty();
+                if (!(((b1&&b2&&b3)||(b11&b22&b33)))){
+                    botonGuardar.setEnabled(true);
+                }
             }
         }else{
             resultado.setVisible(false);
@@ -248,7 +291,8 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
             casillaNodoInic.setVisible(false);
             casillaNodoDest.setVisible(false);
             busquedasPermit.setVisible(false);
-            button2.setVisible(false);
+            botonRecorrer.setVisible(false);
+            botonGuardar.setVisible(false);
         }
 
         if(opc2.isSelected()){
