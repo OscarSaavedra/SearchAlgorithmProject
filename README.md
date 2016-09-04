@@ -1,6 +1,13 @@
 Generalization of the SocialNetwork connections algorithm, now this is going to be the central project.
 
 
+####>**_v3.5.1 Update (eng):_**
+  - *Now you can save data through interface (in process)*
+  
+####>**_v3.5.1 Update (spa):_**
+  - *Ahora se pueden guardar datos desde la interface (en proceso)*
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 ###>**_v3.5 Update (eng):_**
   - *Added visual interface (in process)*
