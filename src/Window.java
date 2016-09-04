@@ -1,8 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class Window extends JFrame implements ActionListener,ItemListener,ChangeListener{
@@ -11,10 +13,9 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
     private JTextField casillaNodoInic, casillaNodoDest, busquedasPermit,textField4;
 
 
-
     protected JTextArea resultado, NodeCRtextArea,textArea3;
     private JScrollPane scrollResult;
-    private JLabel label1;
+    private JLabel label1, graph1Image;
 
     private JMenuBar mb;
     private JMenu options, menuSize,menuColor,ayuda;
@@ -33,6 +34,16 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
 
     public Window(){
         setLayout(null);
+
+        try{
+            BufferedImage graph1Image= ImageIO.read(new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Graphs\\imagen1.jpg"));
+            this.graph1Image =new JLabel(new ImageIcon(graph1Image));
+            this.graph1Image.setVisible(false);
+            this.graph1Image.setBounds(800,20,400,300);
+            add(this.graph1Image);
+        }catch (IOException ioe){
+            System.out.println("error cargando la imágen");
+        }
 
         list=new JList(graphs);
         list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -242,21 +253,13 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
                 JOptionPane.showMessageDialog(null,"Primero debes realizar la" +
                         "búsqueda");
             }else{
-                File ruta=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject");
+
+                File ruta=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Saved");
                 if (!ruta.exists()){
                     ruta.mkdirs();
                 }
-                File archivo=new File(ruta,"busqueda.txt");
-                try(FileWriter escritura=new FileWriter(archivo)){
-                    String sl=(String.format("%n"));
-                    escritura.write("Nodo de inicio: "+casillaNodoInic.getText());
-                    escritura.write(sl);
-                    escritura.write("Nodo destino: "+casillaNodoDest.getText());
-                    escritura.write(sl);
-                    escritura.write("Recorrido: "+resultado.getText());
-                }catch (IOException ioe){
-                    JOptionPane.showMessageDialog(null,"No se ha podido escribir" +
-                            "el archivo");
+                if (!ruta.exists()||ruta.exists()){
+
                 }
             }
         }
@@ -266,6 +269,12 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
     }
 
     public void stateChanged (ChangeEvent ce){
+        if (list.isSelectedIndex(0)){
+            graph1Image.setVisible(true);
+        }else{
+            graph1Image.setVisible(false);
+        }
+
         if(opc1.isSelected()){
             if (list.isSelectedIndex(0)) {
                 resultado.setVisible(true);

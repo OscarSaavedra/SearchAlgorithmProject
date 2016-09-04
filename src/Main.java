@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.*;
 public class Main{
     public static void main(String[] args) {
@@ -9,6 +10,14 @@ public class Main{
         formulario1.setTitle("Graphs v3.5");
         formulario1.setVisible(true);
 
+        File subCarpeta1=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Graphs");
+        File subCarpeta2=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Saved");
+        if (!subCarpeta1.exists()){
+            subCarpeta1.mkdirs();
+        }
+        if (!subCarpeta2.exists()){
+            subCarpeta2.mkdir();
+        }
 
 
 
