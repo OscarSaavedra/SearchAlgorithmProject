@@ -7,15 +7,18 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-public class Window extends JFrame implements ActionListener,ItemListener,ChangeListener{
+import java.util.List;
 
-    private JButton exitButton, botonRecorrer,botonGuardar;
-    private JTextField casillaNodoInic, casillaNodoDest, busquedasPermit,textField4;
+public class Window extends JFrame implements ActionListener,ItemListener,ChangeListener{
+    JFrame consola;
+
+    private JButton botonRecorrer,botonGuardar;
+    private JTextField casillaNodoInic, casillaNodoDest, busquedasPermit,textField4,conexionesRndm;
 
 
     protected JTextArea resultado, NodeCRtextArea,textArea3;
     private JScrollPane scrollResult;
-    private JLabel label1, graph1Image;
+    private JLabel label1, graph1Image,graphk6image;
 
     private JMenuBar mb;
     private JMenu options, menuSize,menuColor,ayuda;
@@ -26,46 +29,69 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
 
     private JList list;
     private JScrollPane listScroll;
-    private String[] graphs=new String[]{"Grafo 1","Grafo 2","Grafo 3","Grafo aleatorio","Grafo 4",
-            "Grafo 5","Grafo 6","Grafo 7","Grafo 8"};
-
-
+    private String[] graphs=new String[]{"Grafo 1","Grafo 2","Grafo 3","Grafo 4",
+            "Grafo 5","Grafo 6","Grafo 7","Grafo 8","Grafo aleatorio"};
+    String path="C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Graphs\\imagen1.jpg";
+    String path2="C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Graphs\\k6graph.jpg";
 
 
     public Window(){
-        setLayout(null);
+        Container ventana=getContentPane();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        ventana.setLayout(null);
+
+
 
         try{
-            BufferedImage graph1Image= ImageIO.read(new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Graphs\\imagen1.jpg"));
-            this.graph1Image =new JLabel(new ImageIcon(graph1Image));
+            BufferedImage icon=ImageIO.read(new File("C:\\Users\\"
+                    +System.getProperty("user.name")+"\\Desktop\\SAProject\\Otros\\icon.jpg"));
+            setIconImage(icon);
+        }catch (IOException ioe){
+            System.out.println("no se puede cargar el icono");
+        }
+
+        try{
+            BufferedImage image= ImageIO.read(new File(path));
+            this.graph1Image =new JLabel(new ImageIcon(image));
             this.graph1Image.setVisible(false);
-            this.graph1Image.setBounds(800,20,400,300);
+            this.graph1Image.setBounds(750,10,550,400);
             add(this.graph1Image);
+
+            BufferedImage image2=ImageIO.read(new File(path2));
+            this.graphk6image=new JLabel(new ImageIcon(image2));
+            this.graphk6image.setVisible(false);
+            this.graphk6image.setBounds(750,10,550,400);
+            add(this.graphk6image);
         }catch (IOException ioe){
             System.out.println("error cargando la imágen");
         }
+
 
         list=new JList(graphs);
         list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL_WRAP);
         list.setVisibleRowCount(-1);
 
+
         listScroll=new JScrollPane(list);
-        listScroll.setBounds(10,5,300,40);
+        listScroll.setBounds(10,5,600,40);
         add(listScroll);
 
+
+
+
         opc1=new JRadioButton("Mostrar camino corto entre dos nodos");
-        opc1.setBounds(400,50,400,15);
+        opc1.setBounds(400,50,325,15);
         add(opc1);
         opc1.addChangeListener(this);
 
         opc2=new JRadioButton("Mostrar la cantidad de conexiones de un nodo");
-        opc2.setBounds(400,75,400,15);
+        opc2.setBounds(400,75,325,15);
         add(opc2);
         opc2.addChangeListener(this);
 
         opc3=new JRadioButton("Mostrar de menor a mayor, cantidad de conexiones");
-        opc3.setBounds(400,100,400,15);
+        opc3.setBounds(400,100,324,15);
         add(opc3);
         opc3.addChangeListener(this);
 
@@ -114,11 +140,6 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         menuSize.add(mi6);
 
 
-        exitButton =new JButton("Exit");
-        exitButton.setBounds(250,300,100,30);
-        add(exitButton);
-        exitButton.addActionListener(this);
-
         botonRecorrer =new JButton("Recorrer");
         botonRecorrer.setBounds(250,50,100,30);
         botonRecorrer.setToolTipText("Se recorrerá el grafo");
@@ -133,6 +154,7 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         botonGuardar.setEnabled(false);
         add(botonGuardar);
         botonGuardar.addActionListener(this);
+
 
 
         casillaNodoInic=new JTextField("Introduce el nodo inicio");
@@ -171,6 +193,19 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         });
         add(busquedasPermit);
 
+        conexionesRndm=new JTextField("Repeticiones del bucle de connexiones");
+        conexionesRndm.setBounds(10,200,200,30);
+        conexionesRndm.setVisible(false);
+        conexionesRndm.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                conexionesRndm.setText("");
+            }
+        });
+        add(conexionesRndm);
+
+
         textField4=new JTextField();
         textField4.setBounds(400,300,50,20);
         textField4.setVisible(false);
@@ -184,13 +219,15 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
 
         resultado =new JTextArea();
         scrollResult =new JScrollPane(resultado);
-        scrollResult.setBounds(10,200,200,130);
+        scrollResult.setBounds(10,430,1335,250);
         resultado.setVisible(false);
         scrollResult.setVisible(false);
         add(scrollResult);
 
+
+
         NodeCRtextArea =new JTextArea();
-        NodeCRtextArea.setBounds(400,300,365,40);
+        NodeCRtextArea.setBounds(400,300,365,20);
         NodeCRtextArea.setVisible(false);
         add(NodeCRtextArea);
 
@@ -199,6 +236,7 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         textArea3.setVisible(false);
         add(textArea3);
     }
+
 
     public void actionPerformed(ActionEvent ae){
 
@@ -235,17 +273,32 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
             helpwi.setVisible(true);
         }
 
-        if (ae.getSource()==exitButton){
-            System.exit(0);
-        }
-
         if (ae.getSource()== botonRecorrer){
+
+            if(consola==null){
+                consola= new Consola();
+                consola.setVisible(true);
+            }
+
             String nodeStart= casillaNodoInic.getText();
             String nodeEnd= casillaNodoDest.getText();
             int conn=Integer.parseInt(busquedasPermit.getText());
-            Graph graph = GraphCreation.createGraph1();
-            resultado.setText(graph.getConexionPath(nodeStart,nodeEnd,conn).toString());
+            resultado.setText("Camino recorrido:");
+            switch (list.getSelectedIndex()){
+                case 0:
+                    Graph graph = GraphCreation.createGraph1();
+                    resultado.append(" "+graph.getConexionPath(nodeStart,nodeEnd,conn)
+                            .toString().replace(", ","-->"));
+                    break;
+                case 1:
+                    Graph graph6k=GraphCreation.k6Graph();
+                    resultado.setText(" "+graph6k.getConexionPath(nodeStart,nodeEnd,conn).toString());
 
+                    break;
+                case 8:
+
+            }
+            botonGuardar.setEnabled(true);
         }
 
         if (ae.getSource()==botonGuardar){
@@ -253,7 +306,6 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
                 JOptionPane.showMessageDialog(null,"Primero debes realizar la" +
                         "búsqueda");
             }else{
-
                 File ruta=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Saved");
                 if (!ruta.exists()){
                     ruta.mkdirs();
@@ -269,30 +321,36 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
     }
 
     public void stateChanged (ChangeEvent ce){
+
+        Graph graph = GraphCreation.createGraph1();
+        Graph k6GraphObject=GraphCreation.k6Graph();
+
         if (list.isSelectedIndex(0)){
-            graph1Image.setVisible(true);
+                graph1Image.setVisible(true);
+            }else{
+                graph1Image.setVisible(false);
+        }
+
+        if (list.isSelectedIndex(1)){
+            graphk6image.setVisible(true);
         }else{
-            graph1Image.setVisible(false);
+            graphk6image.setVisible(false);
+        }
+
+        if (list.isSelectedIndex(8)){
+
         }
 
         if(opc1.isSelected()){
-            if (list.isSelectedIndex(0)) {
-                resultado.setVisible(true);
-                scrollResult.setVisible(true);
+            if (!list.isSelectionEmpty()) {
                 casillaNodoInic.setVisible(true);
                 casillaNodoDest.setVisible(true);
+                conexionesRndm.setVisible(true);
                 busquedasPermit.setVisible(true);
+                resultado.setVisible(true);
+                scrollResult.setVisible(true);
                 botonRecorrer.setVisible(true);
                 botonGuardar.setVisible(true);
-                boolean b1=casillaNodoInic.getText().equals("Introduce el nodo inicio");
-                boolean b2=casillaNodoDest.getText().equals("Introduce el nodo destino");
-                boolean b3=busquedasPermit.getText().equals("Cantidad de búsquedas permitidas");
-                boolean b11=casillaNodoInic.getText().isEmpty();
-                boolean b22=casillaNodoDest.getText().isEmpty();
-                boolean b33=busquedasPermit.getText().isEmpty();
-                if (!(((b1&&b2&&b3)||(b11&b22&b33)))){
-                    botonGuardar.setEnabled(true);
-                }
             }
         }else{
             resultado.setVisible(false);
@@ -300,18 +358,28 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
             casillaNodoInic.setVisible(false);
             casillaNodoDest.setVisible(false);
             busquedasPermit.setVisible(false);
+            conexionesRndm.setVisible(false);
             botonRecorrer.setVisible(false);
             botonGuardar.setVisible(false);
         }
 
         if(opc2.isSelected()){
-            if (list.isSelectedIndex(0)){
-                Graph graph = GraphCreation.createGraph1();
+            if (!list.isSelectionEmpty()){
                 textField4.setVisible(true);
                 label1.setVisible(true);
-                String connections=graph.getAdjacents(graph.getNode(textField4.getText())).toString();
-                int connectionSize=graph.getAdjacents(graph.getNode(textField4.getText())).size();
-                label1.setText(connectionSize+" conexiones: "+connections);
+                switch (list.getSelectedIndex()){
+                    case 0:
+                        List<Node>list=graph.getAdjacents(graph.getNode(textField4.getText()));
+                        String connections=list.toString();
+                        int connectionSize=list.size();
+                        label1.setText(connectionSize+" conexiones: "+connections);
+                        break;
+                    case 1:
+                        List<Node> list1=k6GraphObject.getAdjacents(k6GraphObject.getNode(textField4.getText()));
+                        String connections1=list1.toString();
+                        int connectionSize1=list1.size();
+                        label1.setText(connectionSize1+" conexiones: "+connections1);
+                }
             }
         }else{
             textField4.setVisible(false);
@@ -319,10 +387,18 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         }
 
         if (opc3.isSelected()){
-            if (list.isSelectedIndex(0)) {
-                Graph graph = GraphCreation.createGraph1();
-                NodeCRtextArea.setVisible(true);
-                NodeCRtextArea.setText(graph.getNodeCR().toString());
+            if (!list.isSelectionEmpty()) {
+                list.getSelectedIndex();
+                switch (list.getSelectedIndex()){
+                    case 0:
+                        NodeCRtextArea.setVisible(true);
+                        NodeCRtextArea.setText(graph.getNodeCR().toString());
+                        break;
+                    case 1:
+                        NodeCRtextArea.setVisible(true);
+                        NodeCRtextArea.setText(k6GraphObject.getNodeCR().toString());
+                        break;
+                }
             }
         }else{
             NodeCRtextArea.setVisible(false);

@@ -1,8 +1,12 @@
 import com.google.common.collect.*;
+
+import javax.swing.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 public class Graph extends Window {
-
     private Map<String , Node> nodesByName =new HashMap<>();
     private ListMultimap<Node, Node> multimapNodeConnection = ArrayListMultimap.create();
     private ListMultimap<String, List<Node>>savedSearch=ArrayListMultimap.create();
@@ -21,6 +25,7 @@ public class Graph extends Window {
     }
 
     public List<Node> getConexionPath(String nodeStart, String nodeEnd,Integer numberOfChecksAllowed) {
+
         Node primeroLista= nodesByName.get(nodeStart);
         Node nodeDestino = nodesByName.get(nodeEnd);
 
@@ -89,7 +94,7 @@ public class Graph extends Window {
                         System.out.println("No hay conexión posible o uno de los nodos no existe");
                     }
             }
-            resultado.setText(path.toString());
+            System.out.println("Camino recorrido: "+path.toString().replace(", ","-->"));
             return path;
         }
 

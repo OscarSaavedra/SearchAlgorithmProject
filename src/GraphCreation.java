@@ -103,6 +103,60 @@ public class GraphCreation {
         return graph;
     }
 
+    public static Graph k6Graph(){
+        Graph graph=new Graph();
+        Node a=new Node("A");
+        Node b=new Node("B");
+        Node c=new Node("C");
+        Node d=new Node("D");
+        Node e=new Node("E");
+        Node f=new Node("F");
+        graph.addNode(a);
+        graph.addNode(b);
+        graph.addNode(c);
+        graph.addNode(d);
+        graph.addNode(e);
+        graph.addNode(f);
+
+        graph.connect(a,b);
+        graph.connect(a,c);
+        graph.connect(a,d);
+        graph.connect(a,e);
+        graph.connect(a,f);
+
+        graph.connect(b,a);
+        graph.connect(b,c);
+        graph.connect(b,d);
+        graph.connect(b,e);
+        graph.connect(b,f);
+
+        graph.connect(c,a);
+        graph.connect(c,b);
+        graph.connect(c,d);
+        graph.connect(c,e);
+        graph.connect(c,f);
+
+        graph.connect(d,a);
+        graph.connect(d,b);
+        graph.connect(d,c);
+        graph.connect(d,e);
+        graph.connect(d,f);
+
+        graph.connect(e,a);
+        graph.connect(e,b);
+        graph.connect(e,c);
+        graph.connect(e,d);
+        graph.connect(e,f);
+
+        graph.connect(f,a);
+        graph.connect(f,b);
+        graph.connect(f,c);
+        graph.connect(f,d);
+        graph.connect(f,e);
+
+        return graph;
+    }
+
     public static Graph createRandomGraph(int connectionsQuantity){
         Graph graph=new Graph();
         Node a = new Node("A");

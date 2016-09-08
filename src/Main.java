@@ -5,9 +5,9 @@ public class Main{
         Scanner sc = new Scanner(System.in);
 
         Window formulario1=new Window();
-        formulario1.setBounds(10,10,1280,425);
+        formulario1.setBounds(10,10,1366,768);
         formulario1.setResizable(false);
-        formulario1.setTitle("Graphs v3.5");
+        formulario1.setTitle("Graphs v3.5.2");
         formulario1.setVisible(true);
 
         File subCarpeta1=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Graphs");
@@ -22,6 +22,7 @@ public class Main{
 
 
         Graph graph = GraphCreation.createGraph1();
+
 
         Menus.getTitle();
         int lang=sc.nextInt();
