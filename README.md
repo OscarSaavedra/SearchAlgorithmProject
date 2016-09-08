@@ -1,5 +1,15 @@
 Generalization of the SocialNetwork connections algorithm, now this is going to be the central project.
 
+####>**_v3.5.3 Update (eng):_**
+  - *The system output of the console is now connected to a JTextarea that opens like an external console to show more details of the search*
+  - *Minor bug fixes and several corrections*
+  
+####>**_v3.5.3 Update (spa):_**
+  - *La salida del sistema de la consola ahora está conectada a un JTextarea que se abre a modo de consola externa para mostrar
+    mas detalles de la búsqueda*
+  - *Pequeños bugs solucionados y algunas correciones*
+  
+------------------------------------------------------------------------------------------------------------------------------------
 
 ####>**_v3.5.2 Update (eng):_**
   - *The interface shows images of the selected graph (for now only in my computer)*
