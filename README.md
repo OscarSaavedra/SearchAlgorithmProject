@@ -1,5 +1,14 @@
 Generalization of the SocialNetwork connections algorithm, now this is going to be the central project.
 
+
+####>**_v3.5.4 Update (eng):_**
+  - *Save files wherever you want*
+  
+####>**_v3.5.4 Update (spa):_**
+  - *Guarda búsquedas en el directorio que elijas*
+  
+  ------------------------------------------------------------------------------------------------------------------------------------
+
 ####>**_v3.5.3 Update (eng):_**
   - *The system output of the console is now connected to a JTextarea that opens like an external console to show more details of the search*
   - *Minor bug fixes and several corrections*
