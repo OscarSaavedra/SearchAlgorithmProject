@@ -50,7 +50,7 @@ public class Graph extends Window {
                 System.out.print("El objetivo es:");
                 System.out.println(nodeDestino);
                 System.out.println("Comprobación número: ["+(numberOfChecks+"]"));
-                System.out.println("-------------------------------------");
+                System.out.println("-------------------------------------------");
                 if (numberOfChecks>numberOfChecksAllowed){
                     break;
                 }
@@ -59,7 +59,7 @@ public class Graph extends Window {
                     encontrado=true;
                     System.out.println("Se han añadido "+finalAddedNodes.size()+" " +
                             "nodos en total para conseguir realizar la búsqueda: "+finalAddedNodes);
-                    System.out.println("///////////////////////////////////////////////");
+                    System.out.println();
                     break;
                 }else{
                         for (Node adjacent:getAdjacents(primeroLista)) {

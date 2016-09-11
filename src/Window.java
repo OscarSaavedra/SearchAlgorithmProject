@@ -10,9 +10,10 @@ import java.io.*;
 import java.util.List;
 
 public class Window extends JFrame implements ActionListener,ItemListener,ChangeListener{
+
     JFrame consola;
 
-    private JButton botonRecorrer,botonGuardar;
+    private JButton botonRecorrer;
     private JTextField casillaNodoInic, casillaNodoDest, busquedasPermit,textField4,conexionesRndm;
 
 
@@ -21,8 +22,9 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
     private JLabel label1, graph1Image,graphk6image;
 
     private JMenuBar mb;
-    private JMenu options, menuSize,menuColor,ayuda;
-    private JMenuItem redOpt, greenOpt, blueOpt, resOpt1, resOpt2,mi6,ayudaItem;
+    private JMenu archivo,options, menuSize,menuColor,menuLenguaje,ayuda;
+    private JMenuItem redOpt, greenOpt, blueOpt,
+            resOpt1, resOpt2,mi6,español,ingles,ayudaItem,salir;
 
     private JRadioButton opc1,opc2,opc3;
     private ButtonGroup bg;
@@ -34,6 +36,7 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
     String path="C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Graphs\\imagen1.jpg";
     String path2="C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Graphs\\k6graph.jpg";
 
+    String idioma;
 
     public Window(){
         Container ventana=getContentPane();
@@ -41,6 +44,8 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         ventana.setLayout(null);
 
 
+
+        idioma="Español";
 
         try{
             BufferedImage icon=ImageIO.read(new File("C:\\Users\\"
@@ -104,8 +109,13 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         mb=new JMenuBar();
         setJMenuBar(mb);
 
+        menuLenguaje=new JMenu("Lenguaje");
+        mb.add(menuLenguaje);
         options=new JMenu("Opciones");
         mb.add(options);
+        archivo=new JMenu("Archivo");
+        mb.add(archivo);
+        archivo.add(options);
         ayuda=new JMenu("Ayuda");
         mb.add(ayuda);
 
@@ -139,6 +149,19 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         mi6.addActionListener(this);
         menuSize.add(mi6);
 
+        español=new JMenuItem("Español");
+        español.addActionListener(this);
+        ingles=new JMenuItem("Inglés");
+        ingles.addActionListener(this);
+        menuLenguaje.add(español);
+        menuLenguaje.add(ingles);
+
+        options.add(menuLenguaje);
+
+        salir=new JMenuItem("Salir");
+        salir.addActionListener(this);
+        archivo.add(salir);
+
 
         botonRecorrer =new JButton("Recorrer");
         botonRecorrer.setBounds(250,50,100,30);
@@ -146,15 +169,6 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         botonRecorrer.setVisible(false);
         add(botonRecorrer);
         botonRecorrer.addActionListener(this);
-
-        botonGuardar=new JButton("Guardar búsqueda");
-        botonGuardar.setBounds(250,100,100,30);
-        botonGuardar.setToolTipText("Se guardarán los datos de la búsqueda");
-        botonGuardar.setVisible(false);
-        botonGuardar.setEnabled(false);
-        add(botonGuardar);
-        botonGuardar.addActionListener(this);
-
 
 
         casillaNodoInic=new JTextField("Introduce el nodo inicio");
@@ -258,6 +272,14 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
             setSize(1024,768);
         }
 
+        if (ae.getSource()==salir){
+            System.exit(0);
+        }
+
+        if (ae.getSource()==ingles){
+            translateToEnglish();
+        }
+
         if (ae.getSource()==mi6&&mi6.getText().equals("Bloquear redimensionado")){
             setResizable(false);
             mi6.setText("Permitir redimensionar");
@@ -275,10 +297,8 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
 
         if (ae.getSource()== botonRecorrer){
 
-            if(consola==null){
-                consola= new Consola();
-                consola.setVisible(true);
-            }
+            consola= new Consola();
+            consola.setVisible(true);
 
             String nodeStart= casillaNodoInic.getText();
             String nodeEnd= casillaNodoDest.getText();
@@ -298,22 +318,6 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
                 case 8:
 
             }
-            botonGuardar.setEnabled(true);
-        }
-
-        if (ae.getSource()==botonGuardar){
-            if (resultado.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null,"Primero debes realizar la" +
-                        "búsqueda");
-            }else{
-                File ruta=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Saved");
-                if (!ruta.exists()){
-                    ruta.mkdirs();
-                }
-                if (!ruta.exists()||ruta.exists()){
-
-                }
-            }
         }
     }
 
@@ -327,12 +331,14 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
 
         if (list.isSelectedIndex(0)){
                 graph1Image.setVisible(true);
+            Consola.grafoSeleccionado="Grafo 1";
             }else{
                 graph1Image.setVisible(false);
         }
 
         if (list.isSelectedIndex(1)){
             graphk6image.setVisible(true);
+            Consola.grafoSeleccionado="Grafo 2";
         }else{
             graphk6image.setVisible(false);
         }
@@ -345,12 +351,15 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
             if (!list.isSelectionEmpty()) {
                 casillaNodoInic.setVisible(true);
                 casillaNodoDest.setVisible(true);
-                conexionesRndm.setVisible(true);
+                if (list.isSelectedIndex(8)){
+                    conexionesRndm.setVisible(true);
+                }else{
+                    conexionesRndm.setVisible(false);
+                }
                 busquedasPermit.setVisible(true);
                 resultado.setVisible(true);
                 scrollResult.setVisible(true);
                 botonRecorrer.setVisible(true);
-                botonGuardar.setVisible(true);
             }
         }else{
             resultado.setVisible(false);
@@ -358,9 +367,7 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
             casillaNodoInic.setVisible(false);
             casillaNodoDest.setVisible(false);
             busquedasPermit.setVisible(false);
-            conexionesRndm.setVisible(false);
             botonRecorrer.setVisible(false);
-            botonGuardar.setVisible(false);
         }
 
         if(opc2.isSelected()){
@@ -403,5 +410,33 @@ public class Window extends JFrame implements ActionListener,ItemListener,Change
         }else{
             NodeCRtextArea.setVisible(false);
         }
+    }
+
+    private void translateToEnglish() {
+        idioma="Ingles";
+
+        botonRecorrer.setText("Search");
+
+        casillaNodoInic.setText("Starting node");
+        casillaNodoDest.setText("Destination node");
+        busquedasPermit.setText("Allowed searches");
+        conexionesRndm.setText("Number of connection bucles");
+
+        opc1.setText("Show shortest path between 2 nodes");
+        opc2.setText("Show node connections quantity");
+        opc3.setText("Show connection rank");
+
+        archivo.setText("File");
+        salir.setText("Exit");
+        options.setText("Options");
+        ayuda.setText("Help");
+        ayudaItem.setText("Open help");
+        menuLenguaje.setText("Language");
+        español.setText("Spanish");
+        ingles.setText("English");
+        menuSize.setText("Window size");
+        greenOpt.setText("Green");
+        redOpt.setText("Red");
+        blueOpt.setText("Blue");
     }
 }

@@ -1,24 +1,25 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 
 public class Consola extends JFrame implements ActionListener {
+    public static String grafoSeleccionado;
+    private String sl=(String.format("%n"));
+    private JFrame consolaOpc;
+    private JTextArea txtResultado;
+    private JScrollPane scrollTxt;
 
-    public JFrame consolaOpc;
-    public JTextArea txtResultado;
-    public JScrollPane scrollTxt;
+    private JMenuBar jMenuBarra;
+    private JMenu archivoBarra;
+    private JMenuItem opcionesBarra,guardarComo,abrir,salirBarra;
 
-    public JMenuBar jMenuBarra;
-    public JMenu archivoBarra;
-    public JMenuItem opcionesBarra,salirBarra;
+    private JButton botonGuardarConsola,boton2;
 
-    public JButton botonGuardarConsola,boton2;
-
-
+    private JFileChooser guardarOabrir;
     public Consola() {
         JPanel panel = new JPanel();
 
@@ -32,30 +33,36 @@ public class Consola extends JFrame implements ActionListener {
         panel.setLayout(flLayout);
 
 
+        guardarOabrir=new JFileChooser();
+        FileNameExtensionFilter filtro=new FileNameExtensionFilter("TEXT FILES","txt","text");
+        guardarOabrir.setFileFilter(filtro);
+
         jMenuBarra=new JMenuBar();
         setJMenuBar(jMenuBarra);
         archivoBarra =new JMenu("Archivo");
         jMenuBarra.add(archivoBarra);
 
+
+        guardarComo=new JMenuItem("Guardar como...");
+        archivoBarra.add(guardarComo);
+        guardarComo.addActionListener(this);
+
+        abrir=new JMenuItem("Abrir");
+        archivoBarra.add(abrir);
+        abrir.addActionListener(this);
+
         opcionesBarra=new JMenuItem("Opciones");
         archivoBarra.add(opcionesBarra);
         opcionesBarra.addActionListener(this);
-        salirBarra=new JMenuItem("Salir");
-        salirBarra.addActionListener(this);
-        salirBarra.add(new JSeparator());
-        archivoBarra.add(salirBarra);
-
-
 
         txtResultado = new JTextArea();
         txtResultado.setColumns(50);
         txtResultado.setRows(15);
-        txtResultado.setText("...");
 
         scrollTxt = new JScrollPane(txtResultado);
-        add(scrollTxt,BorderLayout.SOUTH);
+        add(scrollTxt);
 
-        botonGuardarConsola = new JButton("Guardar");
+        botonGuardarConsola = new JButton("Guardar por defecto en la carpeta del programa");
         botonGuardarConsola.addActionListener(this);
         panel.add(botonGuardarConsola);
 
@@ -69,8 +76,48 @@ public class Consola extends JFrame implements ActionListener {
 
 
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource()==guardarComo){
+            int val=guardarOabrir.showSaveDialog(Consola.this);
+
+            if (val==guardarOabrir.APPROVE_OPTION){
+                File file=guardarOabrir.getSelectedFile();
+                try(FileWriter salida=new FileWriter(file+".txt")){
+                    salida.append("Búsqueda en: "+grafoSeleccionado);
+                    salida.append(sl);
+                    salida.append(sl);
+                    salida.append(txtResultado.getText());
+                    //no funcionaba porque no cerraba el filewriter
+                    //(ahora está autoclosable
+                }catch (IOException ioe){
+                    System.out.println(ioe.toString());
+                    JOptionPane.showMessageDialog(null,"Error al leer el archivo");
+                }
+            }
+        }
+
+        if (e.getSource()==abrir){
+            guardarOabrir.showOpenDialog(Consola.this);
+        }
+
+
         if (e.getSource()==opcionesBarra){
             consolaOpc=new ConfigConsola();
+            JFileChooser guardarventana=new JFileChooser();
+            guardarventana.setVisible(true);
+        }
+        if (e.getSource()==botonGuardarConsola){
+            File ruta=new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\SAProject\\Saved");
+            if (!ruta.exists()){
+                ruta.mkdirs();
+            }
+            File archivo=new File(ruta,"save1.txt");
+            try(FileWriter output=new FileWriter(archivo)){
+
+                output.write(txtResultado.getText());
+            }catch (IOException ioe){
+                JOptionPane.showMessageDialog(null,"Error al leer el archivo");
+            }
         }
 
     }
